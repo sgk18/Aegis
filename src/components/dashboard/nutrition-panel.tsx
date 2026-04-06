@@ -103,9 +103,9 @@ export function NutritionPanel({ nutrition, onChange }: NutritionPanelProps) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5"
+      className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4 sm:p-5"
     >
-      <h2 className="text-xl font-semibold text-white">Nutrition and Calorie Dashboard</h2>
+      <h2 className="text-lg font-semibold text-white sm:text-xl">Nutrition and Calorie Dashboard</h2>
       <p className="mt-1 text-sm text-slate-300">
         Track calories and macros daily against your lean-mass goals.
       </p>
@@ -239,7 +239,7 @@ export function NutritionPanel({ nutrition, onChange }: NutritionPanelProps) {
         </label>
       </div>
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
         <ProgressRing
           label="Calories"
           value={nutrition.calories}

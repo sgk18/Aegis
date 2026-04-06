@@ -52,25 +52,25 @@ export function WeeklyCycle({ selectedDate, onSelectDate }: WeeklyCycleProps) {
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
           <button
             type="button"
             onClick={() => onSelectDate(addDays(selectedDate, -1))}
-            className="rounded-lg border border-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-300 transition hover:border-slate-500"
+            className="flex-1 rounded-lg border border-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-300 transition hover:border-slate-500 sm:flex-none"
           >
             Previous day
           </button>
           <button
             type="button"
             onClick={() => onSelectDate(today)}
-            className="rounded-lg border border-cyan-500/40 bg-cyan-500/10 px-3 py-1.5 text-xs font-semibold text-cyan-100 transition hover:bg-cyan-500/20"
+            className="flex-1 rounded-lg border border-cyan-500/40 bg-cyan-500/10 px-3 py-1.5 text-xs font-semibold text-cyan-100 transition hover:bg-cyan-500/20 sm:flex-none"
           >
             Jump to today
           </button>
           <button
             type="button"
             onClick={() => onSelectDate(addDays(selectedDate, 1))}
-            className="rounded-lg border border-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-300 transition hover:border-slate-500"
+            className="flex-1 rounded-lg border border-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-300 transition hover:border-slate-500 sm:flex-none"
           >
             Next day
           </button>

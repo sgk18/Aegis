@@ -162,12 +162,12 @@ export function WorkoutLogger({
     >
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h2 className="text-xl font-semibold text-white">
+          <h2 className="text-lg font-semibold text-white sm:text-xl">
             Workout Logger: {template.dayLabel} - {template.title}
           </h2>
           <p className="mt-1 text-sm text-slate-300">{template.focus}</p>
         </div>
-        <p className="rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-100">
+        <p className="w-full rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-100 sm:w-auto">
           Projected Volume: {projectedVolume} kg
         </p>
       </div>
@@ -216,7 +216,7 @@ export function WorkoutLogger({
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <h3 className="text-sm font-semibold text-slate-100">{exercise.exerciseName}</h3>
-                  <div className="flex items-center gap-2 text-[11px] text-slate-300">
+                  <div className="flex flex-wrap items-center gap-2 text-[11px] text-slate-300">
                     <span>Target reps: {exercise.prescribedRepRange}</span>
                     {target ? (
                       <span className="rounded-full border border-fuchsia-400/40 bg-fuchsia-500/15 px-2 py-0.5 text-fuchsia-100">
@@ -234,9 +234,9 @@ export function WorkoutLogger({
                   {exercise.sets.map((setEntry, setIndex) => (
                     <div
                       key={`${exercise.exerciseId}-${setEntry.setNumber}`}
-                      className="grid grid-cols-[auto_1fr_1fr] items-center gap-2"
+                      className="grid grid-cols-1 items-center gap-2 sm:grid-cols-[auto_1fr_1fr]"
                     >
-                      <span className="w-12 rounded-md border border-slate-700 bg-slate-900 px-2 py-1 text-center text-xs text-slate-300">
+                      <span className="w-fit rounded-md border border-slate-700 bg-slate-900 px-2 py-1 text-center text-xs text-slate-300 sm:w-12">
                         Set {setEntry.setNumber}
                       </span>
                       <input

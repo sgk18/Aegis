@@ -79,6 +79,29 @@ export interface DailyNutritionLog {
   fatsGoal: number;
 }
 
+export interface SessionTypeAnalytics {
+  sessionKey: SessionKey;
+  sessionTitle: string;
+  sessions: number;
+  totalVolumeKg: number;
+  averageVolumeKg: number;
+}
+
+export interface ExercisePrEntry {
+  exerciseId: string;
+  exerciseName: string;
+  bestWeightKg: number;
+  sourceDate: string;
+  sessionTitle: string;
+}
+
+export interface WeeklyVolumeBucket {
+  weekStartIso: string;
+  label: string;
+  totalVolumeKg: number;
+  sessionCount: number;
+}
+
 export interface SagaPhase {
   key: SagaKey;
   label: string;
@@ -626,6 +649,196 @@ export function sortedSessionsByDate(
     const delta = parseIsoDate(left.date).getTime() - parseIsoDate(right.date).getTime();
     return direction === "asc" ? delta : -delta;
   });
+}
+
+function startOfUtcWeek(date: Date): Date {
+  const normalized = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0, 0)
+  );
+  const dayIndex = (normalized.getUTCDay() + 6) % 7;
+  normalized.setUTCDate(normalized.getUTCDate() - dayIndex);
+  return normalized;
+}
+
+export function calculateTrainingDaysInWindow(
+  sessions: WorkoutSessionLog[],
+  referenceDateIso: string,
+  windowDays: number
+): number {
+  if (windowDays <= 0) {
+    return 0;
+  }
+
+  const startIso = addDays(referenceDateIso, -(windowDays - 1));
+  const startTime = parseIsoDate(startIso).getTime();
+  const endTime = parseIsoDate(referenceDateIso).getTime();
+  const uniqueTrainingDays = new Set<string>();
+
+  for (const session of sessions) {
+    const sessionTime = parseIsoDate(session.date).getTime();
+    if (sessionTime >= startTime && sessionTime <= endTime) {
+      uniqueTrainingDays.add(session.date);
+    }
+  }
+
+  return uniqueTrainingDays.size;
+}
+
+export function calculateNutritionHitDaysInWindow(
+  nutritionByDate: Record<string, DailyNutritionLog>,
+  referenceDateIso: string,
+  windowDays: number
+): number {
+  if (windowDays <= 0) {
+    return 0;
+  }
+
+  let hitDays = 0;
+  for (let index = 0; index < windowDays; index += 1) {
+    const dateIso = addDays(referenceDateIso, -index);
+    const nutrition = nutritionByDate[dateIso];
+    if (!nutrition) {
+      continue;
+    }
+
+    const calorieWithinRange =
+      nutrition.calories >= nutrition.calorieGoal - 250 &&
+      nutrition.calories <= nutrition.calorieGoal + 150;
+    const proteinGoalReached = nutrition.protein >= nutrition.proteinGoal;
+
+    if (calorieWithinRange && proteinGoalReached) {
+      hitDays += 1;
+    }
+  }
+
+  return hitDays;
+}
+
+export function buildSessionTypeAnalytics(
+  sessions: WorkoutSessionLog[]
+): SessionTypeAnalytics[] {
+  const summaryByKey = new Map<SessionKey, { sessions: number; totalVolumeKg: number }>();
+  const titleByKey = new Map<SessionKey, string>(
+    WEEKLY_CYCLE.map((template) => [template.key, template.title])
+  );
+
+  for (const session of sessions) {
+    const existing = summaryByKey.get(session.sessionKey) ?? {
+      sessions: 0,
+      totalVolumeKg: 0,
+    };
+
+    summaryByKey.set(session.sessionKey, {
+      sessions: existing.sessions + 1,
+      totalVolumeKg: existing.totalVolumeKg + session.totalVolumeKg,
+    });
+  }
+
+  return [...summaryByKey.entries()]
+    .map(([sessionKey, summary]) => {
+      const sessionTitle = titleByKey.get(sessionKey) ?? sessionKey;
+      const averageVolumeKg =
+        summary.sessions > 0 ? summary.totalVolumeKg / summary.sessions : 0;
+
+      return {
+        sessionKey,
+        sessionTitle,
+        sessions: summary.sessions,
+        totalVolumeKg: Math.round(summary.totalVolumeKg),
+        averageVolumeKg: Math.round(averageVolumeKg),
+      };
+    })
+    .sort((left, right) => right.totalVolumeKg - left.totalVolumeKg);
+}
+
+export function buildExercisePrEntries(
+  sessions: WorkoutSessionLog[],
+  maxEntries = 8
+): ExercisePrEntry[] {
+  const bestByExercise = new Map<string, ExercisePrEntry>();
+
+  for (const session of sessions) {
+    for (const exercise of session.exerciseLogs) {
+      const bestWeight = exercise.sets.reduce((best, setEntry) => {
+        return Math.max(best, setEntry.weightKg ?? 0);
+      }, 0);
+
+      if (bestWeight <= 0) {
+        continue;
+      }
+
+      const existing = bestByExercise.get(exercise.exerciseId);
+      const isBetter = !existing || bestWeight > existing.bestWeightKg;
+      const isSameWeightButNewer =
+        existing !== undefined &&
+        bestWeight === existing.bestWeightKg &&
+        session.date > existing.sourceDate;
+
+      if (isBetter || isSameWeightButNewer) {
+        bestByExercise.set(exercise.exerciseId, {
+          exerciseId: exercise.exerciseId,
+          exerciseName: exercise.exerciseName,
+          bestWeightKg: bestWeight,
+          sourceDate: session.date,
+          sessionTitle: session.sessionTitle,
+        });
+      }
+    }
+  }
+
+  return [...bestByExercise.values()]
+    .sort((left, right) => {
+      if (right.bestWeightKg !== left.bestWeightKg) {
+        return right.bestWeightKg - left.bestWeightKg;
+      }
+
+      return right.sourceDate.localeCompare(left.sourceDate);
+    })
+    .slice(0, maxEntries);
+}
+
+export function buildWeeklyVolumeBuckets(
+  sessions: WorkoutSessionLog[],
+  referenceDateIso: string,
+  weekCount = 8
+): WeeklyVolumeBucket[] {
+  if (weekCount <= 0) {
+    return [];
+  }
+
+  const anchorWeekStart = startOfUtcWeek(parseIsoDate(referenceDateIso));
+  const buckets: WeeklyVolumeBucket[] = [];
+
+  for (let index = weekCount - 1; index >= 0; index -= 1) {
+    const weekStart = new Date(anchorWeekStart);
+    weekStart.setUTCDate(anchorWeekStart.getUTCDate() - index * 7);
+
+    const weekEnd = new Date(weekStart);
+    weekEnd.setUTCDate(weekStart.getUTCDate() + 6);
+
+    const weekStartIso = toIsoDate(weekStart);
+    const weekEndIso = toIsoDate(weekEnd);
+
+    const inWeek = sessions.filter((session) => {
+      return session.date >= weekStartIso && session.date <= weekEndIso;
+    });
+
+    const totalVolumeKg = inWeek.reduce((sum, session) => sum + session.totalVolumeKg, 0);
+    const label = weekStart.toLocaleDateString(undefined, {
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    });
+
+    buckets.push({
+      weekStartIso,
+      label,
+      totalVolumeKg: Math.round(totalVolumeKg),
+      sessionCount: inWeek.length,
+    });
+  }
+
+  return buckets;
 }
 
 export function createDailyNutritionTemplate(dateIso: string): DailyNutritionLog {

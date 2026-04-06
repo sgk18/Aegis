@@ -93,14 +93,14 @@ export function RestTimer() {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
-      className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4"
+      className="rounded-2xl border border-slate-800 bg-slate-900/70 p-3 sm:p-4"
     >
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="text-sm font-semibold text-slate-100">Rest Timer</h3>
         <p className="text-xs text-slate-400">Auto ring enabled</p>
       </div>
 
-      <div className="mt-3 flex gap-2">
+      <div className="mt-3 flex flex-wrap gap-2">
         {PRESET_SECONDS.map((option) => {
           const isActive = option === preset;
           return (
@@ -108,7 +108,7 @@ export function RestTimer() {
               key={option}
               type="button"
               onClick={() => handlePresetClick(option)}
-              className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition ${
+              className={`min-w-16 flex-1 rounded-lg border px-3 py-1.5 text-xs font-semibold transition sm:flex-none ${
                 isActive
                   ? "border-cyan-400/50 bg-cyan-500/20 text-cyan-100"
                   : "border-slate-700 bg-slate-800 text-slate-300 hover:border-slate-500"
@@ -121,9 +121,9 @@ export function RestTimer() {
       </div>
 
       <div className="mt-4 rounded-xl border border-slate-800 bg-slate-950/60 p-4">
-        <div className="flex items-center justify-between">
-          <p className="text-3xl font-semibold text-white">{formatClock(remaining)}</p>
-          <div className="h-2 w-24 overflow-hidden rounded-full bg-slate-800">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <p className="text-2xl font-semibold text-white sm:text-3xl">{formatClock(remaining)}</p>
+          <div className="h-2 w-full overflow-hidden rounded-full bg-slate-800 sm:w-24">
             <div
               className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-indigo-400 transition-[width] duration-700"
               style={{ width: `${progress}%` }}
@@ -131,7 +131,7 @@ export function RestTimer() {
           </div>
         </div>
 
-        <div className="mt-3 flex gap-2">
+        <div className="mt-3 flex flex-wrap gap-2">
           <button
             type="button"
             onClick={() => {
@@ -140,7 +140,7 @@ export function RestTimer() {
               }
               setIsRunning((value) => !value);
             }}
-            className="rounded-lg bg-cyan-500 px-3 py-1.5 text-xs font-semibold text-slate-950 transition hover:bg-cyan-400"
+            className="flex-1 rounded-lg bg-cyan-500 px-3 py-1.5 text-xs font-semibold text-slate-950 transition hover:bg-cyan-400 sm:flex-none"
           >
             {isRunning ? "Pause" : "Start"}
           </button>
@@ -150,7 +150,7 @@ export function RestTimer() {
               setIsRunning(false);
               setRemaining(preset);
             }}
-            className="rounded-lg border border-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:border-slate-500"
+            className="flex-1 rounded-lg border border-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:border-slate-500 sm:flex-none"
           >
             Reset
           </button>
