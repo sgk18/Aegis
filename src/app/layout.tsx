@@ -13,8 +13,9 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AEGIS Workout Tracker",
-  description: "Track, record, and review your workout sessions with AEGIS.",
+  title: "Hero's Logbook",
+  description:
+    "A/B PPL workout, nutrition, and progressive overload tracking for a 12-month transformation arc.",
 };
 
 export default function RootLayout({
