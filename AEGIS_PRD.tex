@@ -1,0 +1,268 @@
+\documentclass[11pt,oneside]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{xparse}
+
+% Code formatting
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=single,
+  backgroundcolor=\color{gray!10},
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{red},
+  showstringspaces=false,
+  language=json
+}
+
+% Header and Footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textbf{AEGIS PRD v1.0.0}}
+\fancyhead[R]{\today}
+\fancyfoot[C]{\thepage}
+
+% Title customization
+\title{\textbf{\Large MASTER PRODUCT REQUIREMENTS DOCUMENT (PRD)}\\[0.3cm]{\normalsize Project: AEGIS (Working Title)}}
+\author{Lead Architect: Surya}
+\date{Document Version: 1.0.0 (Master Blueprint)}
+
+\begin{document}
+
+\maketitle
+
+\section*{Platform}
+Cross-platform Mobile (iOS/Android) \& Web Application
+
+\tableofcontents
+\newpage
+
+%---------------------------------------------------------------------------
+\section{Executive Summary}
+%---------------------------------------------------------------------------
+
+Aegis is an AI-driven ``Operating System for Life.'' It resolves app fragmentation by merging task management, physical fitness, nutrition, financial bookkeeping, deep-work enforcement, and social gamification into a single, unified ecosystem. The platform is orchestrated by a self-hosted, hyper-personalized Large Language Model (LLM) that acts as a voice-activated router, converting natural language directly into structured database logs while adopting dynamic personas to motivate the user.
+
+%---------------------------------------------------------------------------
+\section{Product Vision \& Problem Statement}
+%---------------------------------------------------------------------------
+
+\subsection*{The Problem}
+High-performing individuals suffer from the ``Context Switching Tax.'' Managing complex coding sprints, university coursework, physical health, family logistics, and personal finances requires jumping between disconnected silos. These silos prevent a holistic understanding of daily productivity.
+
+\subsection*{The Solution}
+A unified MongoDB-backed architecture where a single spoken sentence updates the user's financial ledger, task list, and physical health dashboard simultaneously. All actions feed into a centralized ``Productivity Score'' and live social leaderboard to drive retention through gamification and extreme accountability.
+
+%---------------------------------------------------------------------------
+\section{Target User Personas}
+%---------------------------------------------------------------------------
+
+Aegis targets users who experience high friction managing complex, multi-faceted lives:
+
+\begin{itemize}
+  \item \textbf{The Deep-Work Developer/Student:} Needs to manage intense academic sprints, track WakaTime coding hours, and utilize hardcore app blockers during hackathon prep.
+  
+  \item \textbf{The Co-op Coordinator:} Requires a shared environment for household sync, managing joint grocery budgets, and coordinating family logistics (e.g., managing morning school routines in Thane).
+  
+  \item \textbf{The Optimizer:} Wants frictionless entry. Relies on Vision AI to snap photos of meals for instant macro-tracking and voice commands for instant expense logging.
+  
+  \item \textbf{The External Accountability Seeker:} Users who actively want an AI to adopt a harsh persona to roast them when screen time spikes, acting as an uncompromising digital coach.
+\end{itemize}
+
+%---------------------------------------------------------------------------
+\section{Core Feature Specifications}
+%---------------------------------------------------------------------------
+
+\subsection{The ``Chameleon'' AI Agent (The Brain)}
+
+The primary UI is the AI itself, accessible instantly.
+
+\begin{itemize}
+  \item \textbf{Instant Access:} Triggered via native iOS/Android home-screen widgets or physical Action Button mapping. The listening UI must load in $< 500$ms.
+  
+  \item \textbf{Dynamic Personas:} The AI injects user preferences dynamically. It can act as a Gen Z hype-man, a formal assistant, or adopt a fictional persona (e.g., Kratos from God of War delivering tough love regarding broken C pointers or skipped workouts).
+  
+  \item \textbf{Multi-Intent Routing:} Parses complex commands (``Log 500 rupees for coffee, I ran 2km, and add a Linear Algebra review to my sprint'') into structured JSON payloads.
+\end{itemize}
+
+\subsection{Unified Task \& Sprint Engine}
+
+\begin{itemize}
+  \item \textbf{Project Sprints:} Converts a massive goal (like a Yugastr hackathon submission) into daily, chronological micro-tasks.
+  
+  \item \textbf{Household Sync:} Shared database collections for group lists and delegated chores.
+  
+  \item \textbf{Automated Rollover:} Uncompleted tasks roll over to the next day, accompanied by an AI-generated motivational nudge or roast.
+\end{itemize}
+
+\subsection{Holistic Health \& Fitness}
+
+\begin{itemize}
+  \item \textbf{Vision-to-Log:} Users upload a meal photo; the Gemini Vision API returns estimated calories and macronutrients.
+  
+  \item \textbf{Fitness Ledger:} Granular database logging for workouts, tracking sets, reps, weight, and cardio distance.
+\end{itemize}
+
+\subsection{The ``Doom Protocol'' (Screen Time \& Deep Work)}
+
+\begin{itemize}
+  \item \textbf{App Blocking:} Integrates with OS-level APIs (Apple Family Controls / Android UsageStats) to hard-block distracting apps.
+  
+  \item \textbf{IDE Integrations:} Webhooks connected to WakaTime/GitHub to automatically log time spent actively coding.
+  
+  \item \textbf{Cognitive Barriers:} High-stakes mode where failing a priority task locks distracting apps behind a cognitive barrier (e.g., forcing the user to calculate a matrix row reduction to unlock Instagram).
+\end{itemize}
+
+\subsection{Financial Ledger \& Social Arena}
+
+\begin{itemize}
+  \item \textbf{Voice Ledger:} Natural language processing of expenses instantly categorizes and deducts amounts from a dynamic budget.
+  
+  \item \textbf{The RPG Score:} A proprietary algorithm weighting all actions into a single daily Productivity Score.
+  
+  \item \textbf{Live Sockets:} A real-time activity stream broadcasting friend milestones and challenge updates instantly.
+\end{itemize}
+
+%---------------------------------------------------------------------------
+\section{System Architecture \& Tech Stack}
+%---------------------------------------------------------------------------
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{2.5cm}|p{3cm}|p{5cm}|}
+\hline
+\textbf{Layer} & \textbf{Technology} & \textbf{Purpose} \\
+\hline
+Monorepo Strategy & Turborepo & Shares types, UI components, and API logic across Web and Mobile. \\
+\hline
+Web Frontend & Next.js (App Router), Tailwind, Zustand & SEO-friendly dashboards and complex sprint planning interfaces. \\
+\hline
+Mobile Client & React Native, Expo, NativeWind & Cross-platform iOS/Android deployment with native OS integrations. \\
+\hline
+Backend API & Next.js API Routes & Serverless execution of standard CRUD operations and database reads. \\
+\hline
+Real-Time Engine & Node.js / Socket.io & Manages live leaderboards, activity feeds, and instant challenge updates. \\
+\hline
+Primary Database & MongoDB & Document-based structure to handle polymorphic action logs dynamically. \\
+\hline
+AI Infrastructure & Llama 3 (8B) / Ollama / Groq & Self-hosted model for secure, zero-latency text-to-JSON routing. \\
+\hline
+Vision API & Gemini Flash / Claude & Offloaded processing for complex image-to-text tasks (food/receipt scanning). \\
+\hline
+\end{tabular}
+\caption{Core Technology Stack for AEGIS Platform}
+\end{table}
+
+%---------------------------------------------------------------------------
+\section{Database Schema (MongoDB)}
+%---------------------------------------------------------------------------
+
+The system relies on a polymorphic \texttt{ActionLog} collection to maintain a unified timeline.
+
+\subsection*{Users Collection}
+
+\begin{lstlisting}
+{
+  "_id": "ObjectId",
+  "name": "Surya",
+  "productivityScore": 1450,
+  "personaSettings": {
+    "character": "Kratos",
+    "tone": "Tough Love",
+    "roastLevel": 9
+  },
+  "integrations": {
+    "wakatimeKey": "String",
+    "githubToken": "String"
+  },
+  "friends": ["ObjectId"],
+  "householdId": "ObjectId"
+}
+\end{lstlisting}
+
+\subsection*{ActionLogs Collection (The Master Ledger)}
+
+\begin{lstlisting}
+{
+  "_id": "ObjectId",
+  "userId": "ObjectId",
+  "timestamp": "ISODate",
+  "domain": "String",
+  "payload": {
+     // Dynamic Object based on Domain.
+     // Example for TASK:
+     // {"title": "Data Structures Lab", "status": "completed"}
+     // Example for EXPENSE:
+     // {"amount": 500, "category": "Food"}
+  }
+}
+\end{lstlisting}
+
+\noindent
+\textbf{Note:} Domain enumeration: \texttt{TASK}, \texttt{EXPENSE}, \texttt{FITNESS}, \texttt{DEEP\_WORK}
+
+%---------------------------------------------------------------------------
+\section{Core User Flow: The Voice-to-Database Pipeline}
+%---------------------------------------------------------------------------
+
+\begin{enumerate}
+  \item \textbf{Trigger:} User taps the mobile widget.
+  
+  \item \textbf{Capture:} React Native voice module records the command.
+  
+  \item \textbf{Transcription:} Fast cloud API or on-device model converts audio to text.
+  
+  \item \textbf{Inference:} Text is routed to the Llama 3 server, injected with the user's \texttt{personaSettings}.
+  
+  \item \textbf{Routing:} The LLM returns a structured JSON array of actions and custom dialogue.
+  
+  \item \textbf{Database Write:} Next.js backend parses the JSON and inserts documents into the \texttt{ActionLogs} collection.
+  
+  \item \textbf{Real-Time Broadcast:} The backend recalculates the RPG Productivity Score and fires a Socket.io event.
+  
+  \item \textbf{Client Update:} The mobile UI instantly renders the AI's dialogue, updates personal stats, and pushes the event to friends' live feeds.
+\end{enumerate}
+
+%---------------------------------------------------------------------------
+\section{Development Milestones \& Go-To-Market}
+%---------------------------------------------------------------------------
+
+\subsection{Phase 1: The Core Loop (Weeks 1--4)}
+
+\begin{itemize}
+  \item Initialize Turborepo with Next.js and Expo.
+  \item Set up MongoDB schemas and establish the Groq/Llama 3 routing logic for Task and Expense generation.
+\end{itemize}
+
+\subsection{Phase 2: Deep Work \& Social Engine (Weeks 5--8)}
+
+\begin{itemize}
+  \item Implement WakaTime/GitHub webhooks.
+  \item Build the unified Productivity Score algorithm and integrate Socket.io for the live activity feed.
+\end{itemize}
+
+\subsection{Phase 3: Native Integrations (Weeks 9--12)}
+
+\begin{itemize}
+  \item Integrate Gemini for Vision AI (food logging).
+  \item Implement custom Expo modules for Screen Time blocking (Family Controls/UsageStats).
+\end{itemize}
+
+\subsection{Go-To-Market Strategy: The Trojan Horse}
+
+Launch V1.0 strictly targeting the developer/student niche as a ``Deep Work \& Hackathon Planner.'' Highlight the ruthless screen-time blocking and AI roasting. Once the core loop is proven and retention is high, expand into the Healthify and Co-op features for broader market adoption.
+
+%---------------------------------------------------------------------------
+\section*{Conclusion}
+%---------------------------------------------------------------------------
+
+The AEGIS platform represents a comprehensive reimagining of personal productivity through integrated AI orchestration. The modular tech stack and phased rollout strategy position the product for rapid iteration, market validation, and sustainable scaling.
+
+\end{document}
