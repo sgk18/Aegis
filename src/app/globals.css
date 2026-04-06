@@ -20,6 +20,7 @@ body {
     linear-gradient(180deg, #040712 0%, #070d1a 42%, #080f1f 100%);
   color: var(--foreground);
   font-family: var(--font-space-grotesk), sans-serif;
+  overflow-x: clip;
 }
 
 ::selection {

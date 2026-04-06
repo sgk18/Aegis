@@ -318,23 +318,21 @@ export function HeroAnalytics({
           <p className="text-sm font-semibold text-white">Weekly Volume (Last 8 Weeks)</p>
           <p className="text-xs text-slate-400">Training load trend with session counts</p>
 
-          <div className="mt-3 overflow-x-auto">
-            <div className="flex h-36 min-w-[420px] items-end gap-2 sm:min-w-0">
-              {weeklyVolumeBuckets.map((bucket) => {
-                const ratio = bucket.totalVolumeKg / maxWeeklyVolume;
-                return (
-                  <div key={bucket.weekStartIso} className="flex flex-1 flex-col items-center gap-1">
-                    <div
-                      className={`w-full rounded-md bg-gradient-to-t from-cyan-500/80 to-fuchsia-400/70 ${weeklyBarHeightClass(
-                        ratio
-                      )}`}
-                    />
-                    <p className="text-[10px] font-semibold text-slate-300">{bucket.label}</p>
-                    <p className="text-[10px] text-slate-500">{bucket.sessionCount}s</p>
-                  </div>
-                );
-              })}
-            </div>
+          <div className="mt-3 grid h-36 grid-cols-8 items-end gap-1.5">
+            {weeklyVolumeBuckets.map((bucket) => {
+              const ratio = bucket.totalVolumeKg / maxWeeklyVolume;
+              return (
+                <div key={bucket.weekStartIso} className="flex min-w-0 flex-col items-center gap-1">
+                  <div
+                    className={`w-full rounded-md bg-gradient-to-t from-cyan-500/80 to-fuchsia-400/70 ${weeklyBarHeightClass(
+                      ratio
+                    )}`}
+                  />
+                  <p className="text-[10px] font-semibold text-slate-300">{bucket.label}</p>
+                  <p className="text-[10px] text-slate-500">{bucket.sessionCount}s</p>
+                </div>
+              );
+            })}
           </div>
 
           <div className="mt-2 grid gap-1 text-[11px] text-slate-400 sm:grid-cols-2">
@@ -356,11 +354,11 @@ export function HeroAnalytics({
             </p>
           ) : (
             <>
-              <div className="mt-3 space-y-2 md:hidden">
+              <div className="mt-3 space-y-2 lg:hidden">
                 {sessionSplitAnalytics.map((split) => (
                   <article key={`${split.sessionKey}-mobile`} className="rounded-lg border border-slate-800 bg-slate-900/60 p-3">
-                    <p className="text-xs font-semibold text-white">{split.sessionTitle}</p>
-                    <div className="mt-1 grid grid-cols-3 gap-2 text-[11px] text-slate-300">
+                    <p className="break-words text-xs font-semibold text-white">{split.sessionTitle}</p>
+                    <div className="mt-1 grid grid-cols-2 gap-2 text-[11px] text-slate-300">
                       <p>Logs: {split.sessions}</p>
                       <p>Vol: {split.totalVolumeKg} kg</p>
                       <p>Avg: {split.averageVolumeKg} kg</p>
@@ -369,7 +367,7 @@ export function HeroAnalytics({
                 ))}
               </div>
 
-              <div className="mt-3 hidden overflow-x-auto md:block">
+              <div className="mt-3 hidden overflow-x-auto lg:block">
                 <table className="w-full min-w-[320px] border-collapse text-xs">
                   <thead>
                     <tr className="text-left uppercase tracking-wide text-slate-500">
@@ -406,20 +404,20 @@ export function HeroAnalytics({
           </p>
         ) : (
           <>
-            <div className="mt-3 space-y-2 md:hidden">
+            <div className="mt-3 space-y-2 lg:hidden">
               {topExercisePrs.map((entry) => (
                 <article key={`${entry.exerciseId}-mobile`} className="rounded-lg border border-slate-800 bg-slate-900/60 p-3">
-                  <p className="text-xs font-semibold text-white">{entry.exerciseName}</p>
+                  <p className="break-words text-xs font-semibold text-white">{entry.exerciseName}</p>
                   <div className="mt-1 flex flex-wrap gap-2 text-[11px] text-slate-300">
                     <span>{entry.bestWeightKg} kg</span>
                     <span>{entry.sourceDate}</span>
-                    <span>{entry.sessionTitle}</span>
+                    <span className="break-words">{entry.sessionTitle}</span>
                   </div>
                 </article>
               ))}
             </div>
 
-            <div className="mt-3 hidden overflow-x-auto md:block">
+            <div className="mt-3 hidden overflow-x-auto lg:block">
               <table className="w-full min-w-[520px] border-collapse text-xs">
                 <thead>
                   <tr className="text-left uppercase tracking-wide text-slate-500">

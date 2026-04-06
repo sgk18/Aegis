@@ -77,7 +77,7 @@ export function WeeklyCycle({ selectedDate, onSelectDate }: WeeklyCycleProps) {
         </div>
       </div>
 
-      <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-7">
+      <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-7">
         {stripDays.map((item) => {
           const cardClasses = item.isSelected
             ? "border-cyan-400/60 bg-cyan-500/15"
@@ -93,8 +93,8 @@ export function WeeklyCycle({ selectedDate, onSelectDate }: WeeklyCycleProps) {
               <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
                 {formatDisplayDate(item.dateIso)}
               </p>
-              <p className="mt-1 text-sm font-semibold text-white">{item.template.title}</p>
-              <p className="text-xs text-slate-300">{item.template.focus}</p>
+              <p className="mt-1 break-words text-sm font-semibold text-white">{item.template.title}</p>
+              <p className="break-words text-xs text-slate-300">{item.template.focus}</p>
               {item.isToday ? (
                 <span className="mt-2 inline-block rounded-full border border-fuchsia-400/50 bg-fuchsia-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-fuchsia-100">
                   Today

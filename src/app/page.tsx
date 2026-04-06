@@ -323,12 +323,12 @@ export default function Page() {
             <button
               type="button"
               onClick={downloadBackup}
-              className="rounded-lg border border-cyan-500/40 bg-cyan-500/10 px-3 py-1.5 text-xs font-semibold text-cyan-100 transition hover:bg-cyan-500/20"
+              className="w-full rounded-lg border border-cyan-500/40 bg-cyan-500/10 px-3 py-1.5 text-xs font-semibold text-cyan-100 transition hover:bg-cyan-500/20 sm:w-auto"
             >
               Export backup
             </button>
 
-            <label className="cursor-pointer rounded-lg border border-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:border-slate-500">
+            <label className="w-full cursor-pointer rounded-lg border border-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:border-slate-500 sm:w-auto">
               Import backup
               <input
                 type="file"
@@ -341,12 +341,12 @@ export default function Page() {
             <button
               type="button"
               onClick={replaceAllData}
-              className="rounded-lg border border-rose-500/40 bg-rose-500/10 px-3 py-1.5 text-xs font-semibold text-rose-100 transition hover:bg-rose-500/20"
+              className="w-full rounded-lg border border-rose-500/40 bg-rose-500/10 px-3 py-1.5 text-xs font-semibold text-rose-100 transition hover:bg-rose-500/20 sm:w-auto"
             >
               Clear all local logs
             </button>
 
-            <p className="text-xs text-slate-400">
+            <p className="w-full text-xs text-slate-400">
               Worklogs are persisted locally in this browser and can be exported/imported.
             </p>
           </div>
@@ -359,11 +359,11 @@ export default function Page() {
             </div>
           ) : (
             <>
-              <div className="mt-4 space-y-3 md:hidden">
+              <div className="mt-4 space-y-3 lg:hidden">
                 {recentSessions.map((session) => (
                   <article key={`${session.id}-recent-card`} className="rounded-xl border border-slate-800 bg-slate-950/60 p-3">
                     <p className="text-xs uppercase tracking-wide text-slate-400">{session.date}</p>
-                    <p className="mt-1 text-sm font-semibold text-white">{session.sessionTitle}</p>
+                    <p className="mt-1 break-words text-sm font-semibold text-white">{session.sessionTitle}</p>
                     <div className="mt-2 grid grid-cols-2 gap-2 text-xs text-slate-300">
                       <p>Bodyweight: {session.bodyWeightKg ?? "-"} kg</p>
                       <p>Volume: {session.totalVolumeKg} kg</p>
@@ -373,7 +373,7 @@ export default function Page() {
                 ))}
               </div>
 
-              <div className="mt-4 hidden overflow-x-auto md:block">
+              <div className="mt-4 hidden overflow-x-auto lg:block">
                 <table className="w-full min-w-[680px] border-collapse text-sm">
                   <thead>
                     <tr className="text-left text-xs uppercase tracking-wide text-slate-400">
@@ -417,11 +417,11 @@ export default function Page() {
             </div>
           ) : (
             <>
-              <div className="mt-4 space-y-3 md:hidden">
+              <div className="mt-4 space-y-3 lg:hidden">
                 {fullHistorySessions.map((session) => (
                   <article key={`${session.id}-history-card`} className="rounded-xl border border-slate-800 bg-slate-950/60 p-3">
                     <p className="text-xs uppercase tracking-wide text-slate-400">{session.date}</p>
-                    <p className="mt-1 text-sm font-semibold text-white">{session.sessionTitle}</p>
+                    <p className="mt-1 break-words text-sm font-semibold text-white">{session.sessionTitle}</p>
                     <div className="mt-2 grid grid-cols-2 gap-2 text-xs text-slate-300">
                       <p>Bodyweight: {session.bodyWeightKg ?? "-"} kg</p>
                       <p>Volume: {session.totalVolumeKg} kg</p>
@@ -434,12 +434,12 @@ export default function Page() {
                         </li>
                       ))}
                     </ul>
-                    <p className="mt-2 text-xs text-slate-400">{session.notes || "-"}</p>
+                    <p className="mt-2 break-words text-xs text-slate-400">{session.notes || "-"}</p>
                   </article>
                 ))}
               </div>
 
-              <div className="mt-4 hidden overflow-x-auto md:block">
+              <div className="mt-4 hidden overflow-x-auto lg:block">
                 <table className="w-full min-w-[980px] border-collapse text-sm">
                   <thead>
                     <tr className="text-left text-xs uppercase tracking-wide text-slate-400">

@@ -173,7 +173,7 @@ export function WorkoutLogger({
       </div>
 
       <form onSubmit={onSubmit} className="mt-5 space-y-4">
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 md:grid-cols-3">
           <label className="text-xs font-semibold uppercase tracking-wide text-slate-400">
             Body Weight (kg)
             <input
@@ -215,7 +215,7 @@ export function WorkoutLogger({
                 className="rounded-xl border border-slate-800 bg-slate-950/60 p-3"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h3 className="text-sm font-semibold text-slate-100">{exercise.exerciseName}</h3>
+                  <h3 className="break-words text-sm font-semibold text-slate-100">{exercise.exerciseName}</h3>
                   <div className="flex flex-wrap items-center gap-2 text-[11px] text-slate-300">
                     <span>Target reps: {exercise.prescribedRepRange}</span>
                     {target ? (
